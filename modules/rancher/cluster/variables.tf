@@ -172,11 +172,11 @@ variable "rancher_projects" {
 variable "cluster_stage1_apps" {
   description = "A list of apps"
   type = map(object({
-    namespace = string
-    catalog_name = string
-    template_name = string
+    namespace        = string
+    catalog_name     = string
+    template_name    = string
     create_namespace = bool
-    system_app = bool
+    system_app       = bool
   }))
 }
 
@@ -199,26 +199,26 @@ variable "admin_cluster_lb_name" {
 variable "policy_update_endpoint_csv" {
   description = "The list of cluster endpoints in csv for policy update service"
   type        = string
-  default     = "" 
+  default     = ""
 }
 
 variable "transaction_event_endpoint_csv" {
   description = "The list of cluster endpoints in csv for transaction event service"
   type        = string
-  default     = "" 
+  default     = ""
 }
 
 variable "ncfs_endpoint_csv" {
   description = "The list of cluster endpoints in csv for ncfs event service"
   type        = string
-  default     = "" 
+  default     = ""
 }
 
 variable "add_master_scaleset" {
   description = "Turn on or off scalesets"
   type        = bool
 }
- 
+
 variable "add_worker_scaleset" {
   description = "Turn on or off scalesets"
   type        = bool
@@ -242,22 +242,22 @@ variable "cluster_worker_labels" {
 
 variable "cluster_worker_taints" {
   description = "The labels"
-  type        = list(object({
-    key = string
-    value = string
+  type = list(object({
+    key    = string
+    value  = string
     effect = string
   }))
 }
 
 variable "rancher_server_name" {
-  type        = string
+  type = string
 }
 
 variable "rancher_internal_ip" {
-  type        = string
+  type = string
 }
 
 variable "rancher_agent_version" {
   description = "Rancher agent version"
-  type = string
+  type        = string
 }

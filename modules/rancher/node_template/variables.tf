@@ -40,7 +40,7 @@ variable "node_disk_size" {
 variable "node_ports" {
   description = "Node Ports"
   type        = list(string)
-  default     =  ["80/tcp","443/tcp","6443/tcp","2376/tcp","2379/tcp","2380/tcp","8472/udp","4789/udp","9796/tcp","10256/tcp","10250/tcp","10251/tcp","10252/tcp"]
+  default     = ["80/tcp", "443/tcp", "6443/tcp", "2376/tcp", "2379/tcp", "2380/tcp", "8472/udp", "4789/udp", "9796/tcp", "10256/tcp", "10250/tcp", "10251/tcp", "10252/tcp"]
 }
 
 variable "node_storage_type" {
@@ -92,9 +92,9 @@ variable "public_key_openssh" {
 }
 
 variable "rancher_internal_ip" {
-  type        = string
+  type = string
 }
 
 variable "rancher_server_name" {
-  type        = string
+  type = string
 }

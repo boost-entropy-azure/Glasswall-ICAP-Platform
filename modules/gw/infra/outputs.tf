@@ -19,11 +19,11 @@ output "subnet_id" {
 }
 
 output "worker_lb_id" {
-  value = module.worker_lb.id   
+  value = module.worker_lb.id
 }
 
 output "int_worker_lb_id" {
-  value = module.int_worker_lb.id   
+  value = module.int_worker_lb.id
 }
 
 output "worker_lbap_id" {
@@ -39,10 +39,10 @@ output "int_worker_ingress_probe_id" {
 }
 
 output "int_worker_ingress_rules_ids" {
-   value = flatten([
-    for rule in azurerm_lb_rule.int_worker_ingress_rules:
-      rule.id
-  ]) 
+  value = flatten([
+    for rule in azurerm_lb_rule.int_worker_ingress_rules :
+    rule.id
+  ])
 }
 
 output "int_worker_lb_dns_name" {
@@ -58,7 +58,7 @@ output "worker_ingress_probe_id" {
 }
 
 output "worker_ingress_rule_1_id" {
-  value = azurerm_lb_rule.worker_ingress_rule_1.id  
+  value = azurerm_lb_rule.worker_ingress_rule_1.id
 }
 
 output "worker_lb_dns_name" {

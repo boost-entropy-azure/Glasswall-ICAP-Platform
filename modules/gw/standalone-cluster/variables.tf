@@ -187,11 +187,11 @@ variable "rancher_projects" {
 variable "cluster_stage1_apps" {
   description = "A list of apps"
   type = map(object({
-    namespace = string
-    catalog_name = string
-    template_name = string
+    namespace        = string
+    catalog_name     = string
+    template_name    = string
     create_namespace = bool
-    system_app = bool
+    system_app       = bool
   }))
 }
 
@@ -220,16 +220,16 @@ variable "cluster_endpoints" {
 
 variable "security_group_rules" {
   description = "The rules to add as an object"
-  type        =  map(object({
-    name                                        = string
-    priority                                    = string
-    direction                                   = string
-    access                                      = string
-    protocol                                    = string
-    source_port_range                           = string
-    destination_port_range                      = string
-    source_address_prefix                       = string
-    destination_address_prefix                  = string
+  type = map(object({
+    name                       = string
+    priority                   = string
+    direction                  = string
+    access                     = string
+    protocol                   = string
+    source_port_range          = string
+    destination_port_range     = string
+    source_address_prefix      = string
+    destination_address_prefix = string
   }))
 }
 
@@ -239,9 +239,9 @@ variable "rancher_agent_version" {
 }
 
 variable "rancher_internal_ip" {
-  type        = string
+  type = string
 }
 
 variable "rancher_server_name" {
-  type        = string
+  type = string
 }

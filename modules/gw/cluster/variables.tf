@@ -68,7 +68,7 @@ variable "azure_region" {
 
 variable "fault_domain_count" {
   description = "Azure Fault Domain count"
-  type = string
+  type        = string
 }
 
 variable "tenant_id" {
@@ -190,20 +190,20 @@ variable "rancher_projects" {
 variable "cluster_stage1_apps" {
   description = "A list of apps"
   type = map(object({
-    namespace = string
-    catalog_name = string
-    template_name = string
+    namespace        = string
+    catalog_name     = string
+    template_name    = string
     create_namespace = bool
-    system_app = bool
+    system_app       = bool
   }))
 }
 
 variable "cluster_internal_services" {
   description = "Ports to open on the internal load balancer"
   type = map(object({
-      protocol                        = string
-      frontend_port                   = number
-      backend_port                    = number
+    protocol      = string
+    frontend_port = number
+    backend_port  = number
   }))
 }
 
@@ -219,28 +219,28 @@ variable "docker_config_json" {
 
 variable "security_group_rules" {
   description = "The rules to add as an object"
-  type        =  map(object({
-    name                                        = string
-    priority                                    = string
-    direction                                   = string
-    access                                      = string
-    protocol                                    = string
-    source_port_range                           = string
-    destination_port_range                      = string
-    source_address_prefix                       = string
-    destination_address_prefix                  = string
+  type = map(object({
+    name                       = string
+    priority                   = string
+    direction                  = string
+    access                     = string
+    protocol                   = string
+    source_port_range          = string
+    destination_port_range     = string
+    source_address_prefix      = string
+    destination_address_prefix = string
   }))
 }
 
 variable "rancher_agent_version" {
   description = "Rancher agent version"
-  type = string
+  type        = string
 }
 
 variable "rancher_internal_ip" {
-  type        = string
+  type = string
 }
 
 variable "rancher_server_name" {
-  type        = string
+  type = string
 }
