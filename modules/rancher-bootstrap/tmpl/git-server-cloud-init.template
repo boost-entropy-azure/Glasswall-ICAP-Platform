@@ -1,4 +1,9 @@
 #cloud-config
+write_files:
+  - content: |
+      ${docker_registry_url}
+    path: /etc/container_registry
+
 runcmd:
   - yum update
   - yum -y install docker iptables-services

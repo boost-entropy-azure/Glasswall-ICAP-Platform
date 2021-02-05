@@ -45,6 +45,7 @@ module "git_server" {
     docker_password      = data.azurerm_key_vault_secret.docker-password.value
     docker_org           = data.azurerm_key_vault_secret.docker-org.value
     docker_gitserver_tag = var.git_server_version
+    docker_registry_url  = "" # get the container registry url using data?
   }))
   subnet_id          = module.subnet.id
   public_ip_id       = module.git_server_public_ip.id
