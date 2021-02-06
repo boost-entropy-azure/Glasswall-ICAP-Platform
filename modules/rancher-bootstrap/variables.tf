@@ -59,6 +59,12 @@ variable "git_server_version" {
   type = string
 }
 
+variable "container_registry_url" {
+ description = "The container registry URL where docker images are stored. Ex docker.io, quay.io, gcr.io, ext."
+ type = string
+ default = "gwicapcontainerregistry.azurecr.io"
+}
+
 variable "key_vault_resource_group" {
   description = "Subnet Prefix"
   type        = string
