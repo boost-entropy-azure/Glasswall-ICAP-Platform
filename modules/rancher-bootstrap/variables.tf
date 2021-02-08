@@ -59,6 +59,12 @@ variable "git_server_version" {
   type        = string
 }
 
+variable "container_registry_url" {
+  description = "The container registry URL where docker images are stored. Ex docker.io, quay.io, gcr.io, ext."
+  type        = string
+  default     = "gwicapcontainerregistry.azurecr.io"
+}
+
 variable "key_vault_resource_group" {
   description = "Subnet Prefix"
   type        = string
@@ -67,11 +73,6 @@ variable "key_vault_resource_group" {
 variable "key_vault_name" {
   description = "Git server docker tag version"
   type        = string
-}
-
-variable "container_registry_url" {
-  default = "The Container Registry URL"
-  type    = string
 }
 
 variable "rancher_server_version" {
