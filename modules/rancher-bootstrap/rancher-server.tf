@@ -17,53 +17,53 @@ resource "azurerm_dns_a_record" "rancher_server" {
 }
 
 resource "azurerm_dns_a_record" "rancher_internal_server" {
-  name                    = "${local.service_name}-int"
-  zone_name               = azurerm_dns_zone.main.name
-  resource_group_name     = module.resource_group.name
-  ttl                     = 300
-  records                 = [module.rancher_server.linux_vm_private_ips]
+  name                = "${local.service_name}-int"
+  zone_name           = azurerm_dns_zone.main.name
+  resource_group_name = module.resource_group.name
+  ttl                 = 300
+  records             = [module.rancher_server.linux_vm_private_ips]
 }
 
 module "rancher_server" {
-  source                  = "../azure/vm"
-  resource_group          = module.resource_group.name
-  organisation            = var.organisation
-  environment             = var.environment
-  service_name            = local.service_name
-  service_type            = "rancher_server"
-  os_sku                  = "7-LVM"
-  os_offer                = "RHEL"
-  os_publisher            = "RedHat"
-  size                    = var.size
-  region                  = var.azure_region
-  custom_data_file_path   = base64encode(templatefile("${path.module}/tmpl/rancher-server-cloud-init.template", {
-    rancher_server_version= var.rancher_server_version
+  source         = "../azure/vm"
+  resource_group = module.resource_group.name
+  organisation   = var.organisation
+  environment    = var.environment
+  service_name   = local.service_name
+  service_type   = "rancher_server"
+  os_sku         = "7-LVM"
+  os_offer       = "RHEL"
+  os_publisher   = "RedHat"
+  size           = var.size
+  region         = var.azure_region
+  custom_data_file_path = base64encode(templatefile("${path.module}/tmpl/rancher-server-cloud-init.template", {
+    rancher_server_version = var.rancher_server_version
   }))
-  subnet_id               = module.subnet.id
-  public_ip_id            = module.public_ip.id
-  public_key_openssh      = tls_private_key.ssh.public_key_openssh
+  subnet_id          = module.subnet.id
+  public_ip_id       = module.public_ip.id
+  public_key_openssh = tls_private_key.ssh.public_key_openssh
   security_group_rules = {
-   rancher_ssh = {
-      name                                      = "rancher_ssh"
-      priority                                  = "1001"
-      direction                                 = "Inbound"
-      access                                    = "Allow"
-      protocol                                  = "tcp"
-      source_port_range                         = "*"
-      destination_port_range                    = "22"
-      source_address_prefix                     = "*"
-      destination_address_prefix                = "*"
-  },
-  https = {
-      name                                      = "rancher_https"
-      priority                                  = "1002"
-      direction                                 = "Inbound"
-      access                                    = "Allow"
-      protocol                                  = "tcp"
-      source_port_range                         = "*"
-      destination_port_range                    = "443"
-      source_address_prefix                     = "*"
-      destination_address_prefix                = "*"
+    rancher_ssh = {
+      name                       = "rancher_ssh"
+      priority                   = "1001"
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "tcp"
+      source_port_range          = "*"
+      destination_port_range     = "22"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
+    },
+    https = {
+      name                       = "rancher_https"
+      priority                   = "1002"
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "tcp"
+      source_port_range          = "*"
+      destination_port_range     = "443"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
     }
   }
 }
@@ -75,27 +75,27 @@ module "security_group" {
   azure_region        = var.azure_region
   resource_group_name = module.resource_group.name
   security_group_rules = {
-   rancher_ssh = {
-      name                                      = "rancher_ssh"
-      priority                                  = "1001"
-      direction                                 = "Inbound"
-      access                                    = "Allow"
-      protocol                                  = "tcp"
-      source_port_range                         = "*"
-      destination_port_range                    = "22"
-      source_address_prefix                     = "*"
-      destination_address_prefix                = module.rancher_server.linux_vm_private_ips
-  },
-  https = {
-      name                                      = "rancher_plus_admin_https"
-      priority                                  = "1002"
-      direction                                 = "Inbound"
-      access                                    = "Allow"
-      protocol                                  = "tcp"
-      source_port_range                         = "*"
-      destination_port_range                    = "443"
-      source_address_prefix                     = "*"
-      destination_address_prefix                = "*"
+    rancher_ssh = {
+      name                       = "rancher_ssh"
+      priority                   = "1001"
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "tcp"
+      source_port_range          = "*"
+      destination_port_range     = "22"
+      source_address_prefix      = "*"
+      destination_address_prefix = module.rancher_server.linux_vm_private_ips
+    },
+    https = {
+      name                       = "rancher_plus_admin_https"
+      priority                   = "1002"
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "tcp"
+      source_port_range          = "*"
+      destination_port_range     = "443"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
     }
   }
 }
@@ -126,7 +126,7 @@ resource "random_password" "password" {
 }
 
 resource "rancher2_bootstrap" "admin" {
-  provider     = rancher2.bootstrap
-  password     = random_password.password.result
-  depends_on   = [time_sleep.wait_300_seconds]
+  provider   = rancher2.bootstrap
+  password   = random_password.password.result
+  depends_on = [time_sleep.wait_300_seconds]
 }
