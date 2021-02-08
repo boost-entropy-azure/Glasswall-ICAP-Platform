@@ -46,12 +46,12 @@ variable "system_id" {
 
 variable "template_name" {
   description = "Helm template name"
-  type = string
+  type        = string
 }
 
 variable "namespace" {
   description = "Namespace"
-  type = string
+  type        = string
 }
 
 variable "create_namespace" {

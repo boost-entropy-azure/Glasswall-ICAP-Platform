@@ -8,7 +8,7 @@ output "primary_access_key" {
 }
 
 output "primary_access_region" {
-    value = azurerm_storage_account.main.primary_location
+  value = azurerm_storage_account.main.primary_location
 }
 
 output "secondary_access_key" {

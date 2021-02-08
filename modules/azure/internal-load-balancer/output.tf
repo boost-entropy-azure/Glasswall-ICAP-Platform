@@ -1,5 +1,5 @@
 output "id" {
-  value =  azurerm_lb.main.id
+  value = azurerm_lb.main.id
 }
 
 output "private_ip_address" {
