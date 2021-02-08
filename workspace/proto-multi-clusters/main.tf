@@ -92,12 +92,12 @@ data "azurerm_key_vault" "key_vault" {
 }
 
 data "azurerm_key_vault_secret" "az-client-id" {
-  name         = "icap-service-principle-id"
+  name         = var.azure_keyvault_client_id
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
 data "azurerm_key_vault_secret" "az-client-secret" {
-  name         = "icap-service-principle-value"
+  name         = var.azure_keyvault_client_secret
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
