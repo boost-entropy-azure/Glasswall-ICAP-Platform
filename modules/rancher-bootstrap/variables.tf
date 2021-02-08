@@ -75,6 +75,11 @@ variable "key_vault_name" {
   type = string
 }
 
+variable "container_registry_url" {
+  default = "The Container Registry URL"
+  type    = string
+}
+
 variable "rancher_server_version" {
   description = "Rancher server version"
   type = string

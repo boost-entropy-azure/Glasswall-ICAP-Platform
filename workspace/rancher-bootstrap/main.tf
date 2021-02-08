@@ -17,6 +17,7 @@ module "rancher_server" {
   size                     = var.size
   key_vault_resource_group = var.key_vault_resource_group
   key_vault_name           = var.key_vault_name
+  container_registry_url   = var.container_registry_url
   network_addresses        = var.network_addresses
   subnet_address_prefixes  = var.subnet_address_prefixes
   subnet_prefix            = var.subnet_prefix
