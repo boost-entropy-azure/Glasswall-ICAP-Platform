@@ -64,9 +64,9 @@ variable "labels" {
 
 variable "node_taints" {
   description = "The labels"
-  type        = list(object({
-    key = string
-    value = string
+  type = list(object({
+    key    = string
+    value  = string
     effect = string
   }))
 }

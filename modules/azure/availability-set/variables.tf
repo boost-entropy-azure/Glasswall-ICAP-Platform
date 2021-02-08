@@ -5,7 +5,7 @@ variable "name" {
 
 variable "fault_domain_count" {
   description = "Azure Fault Domain count"
-  type = string
+  type        = string
 }
 
 variable "region" {

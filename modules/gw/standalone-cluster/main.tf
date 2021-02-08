@@ -4,55 +4,55 @@ locals {
 }
 
 module "resource_group" {
-  source                  = "../../azure/resource-group"
-  name                    = var.service_name
-  region                  = var.azure_region
+  source = "../../azure/resource-group"
+  name   = var.service_name
+  region = var.azure_region
 }
 
 module "azure_cloud_credentials" {
-  source                 = "../../rancher/cloud_credentials"
-  rancher_admin_url      = var.rancher_admin_url
-  rancher_admin_token    = var.rancher_admin_token
-  credential_name        = local.cluster_name
-  client_id              = var.client_id
-  client_secret          = var.client_secret
-  subscription_id        = var.subscription_id
+  source              = "../../rancher/cloud_credentials"
+  rancher_admin_url   = var.rancher_admin_url
+  rancher_admin_token = var.rancher_admin_token
+  credential_name     = local.cluster_name
+  client_id           = var.client_id
+  client_secret       = var.client_secret
+  subscription_id     = var.subscription_id
 }
 
 module "worker_lb" {
-  source                 = "../../azure/load-balancer"
-  azure_region           = var.azure_region
-  service_name           = local.cluster_name
-  resource_group         = module.resource_group.name
-  lb_probe_port          = var.cluster_backend_port
+  source         = "../../azure/load-balancer"
+  azure_region   = var.azure_region
+  service_name   = local.cluster_name
+  resource_group = module.resource_group.name
+  lb_probe_port  = var.cluster_backend_port
 }
 
 resource "azurerm_lb_backend_address_pool" "worker_lbap" {
-  resource_group_name             = module.resource_group.name
-  loadbalancer_id                 = module.worker_lb.id
-  name                            = "WorkerNodePool"
+  resource_group_name = module.resource_group.name
+  loadbalancer_id     = module.worker_lb.id
+  name                = "WorkerNodePool"
 }
 
 resource "azurerm_lb_probe" "worker_ingress_probe" {
-  depends_on                      = [module.worker_lb]
-  resource_group_name             = module.resource_group.name
-  loadbalancer_id                 = module.worker_lb.id
-  name                            = "WorkerNodesUp"
-  port                            = var.cluster_backend_port
+  depends_on          = [module.worker_lb]
+  resource_group_name = module.resource_group.name
+  loadbalancer_id     = module.worker_lb.id
+  name                = "WorkerNodesUp"
+  port                = var.cluster_backend_port
 }
 
 resource "azurerm_lb_rule" "worker_ingress_rule_1" {
-  depends_on                      = [ azurerm_lb_probe.worker_ingress_probe, azurerm_lb_backend_address_pool.worker_lbap ]    
-  name                            = "WorkerIngressRule-1"
+  depends_on = [azurerm_lb_probe.worker_ingress_probe, azurerm_lb_backend_address_pool.worker_lbap]
+  name       = "WorkerIngressRule-1"
   #location                       = var.azure_region
-  resource_group_name             = module.resource_group.name
-  loadbalancer_id                 = module.worker_lb.id                           
-  frontend_ip_configuration_name  = "Public"     
-  protocol                        = "Tcp"
-  frontend_port                   = var.cluster_public_port
-  backend_port                    = var.cluster_backend_port
-  probe_id                        = azurerm_lb_probe.worker_ingress_probe.id
-  backend_address_pool_id         = azurerm_lb_backend_address_pool.worker_lbap.id
+  resource_group_name            = module.resource_group.name
+  loadbalancer_id                = module.worker_lb.id
+  frontend_ip_configuration_name = "Public"
+  protocol                       = "Tcp"
+  frontend_port                  = var.cluster_public_port
+  backend_port                   = var.cluster_backend_port
+  probe_id                       = azurerm_lb_probe.worker_ingress_probe.id
+  backend_address_pool_id        = azurerm_lb_backend_address_pool.worker_lbap.id
 }
 /*
 resource "azurerm_lb_rule" "worker_internal_ingress_rule_1" {
@@ -174,64 +174,64 @@ module "default_worker_template" {
 }
 
 module "cluster" {
-  source                             = "../../rancher/cluster"
-  organisation                       = var.organisation
-  environment                        = var.environment
-  rancher_admin_url                  = var.rancher_admin_url
-  rancher_internal_api_url           = var.rancher_internal_api_url
-  rancher_admin_token                = var.rancher_admin_token
-  rancher_projects                   = var.rancher_projects
-  cluster_stage1_apps                = var.cluster_stage1_apps
-  cluster_name                       = local.cluster_name
-  rancher_agent_version              = var.rancher_agent_version
-  rancher_server_name                = var.rancher_server_name
-  rancher_internal_ip                = var.rancher_internal_ip
-  client_id                          = var.client_id
-  tenant_id                          = var.tenant_id
-  client_secret                      = var.client_secret
-  subscription_id                    = var.subscription_id
-  azure_region                       = var.azure_region
-  resource_group_name                = module.resource_group.name
-  security_group_id                  = module.security_group.id
-  virtual_network_name               = var.cluster_network_name
-  subnet_name                        = var.cluster_subnet_name
-  subnet_id                          = var.cluster_subnet_id
-  master_scaleset_size               = var.master_scaleset_size
-  master_scaleset_sku_capacity       = var.master_scaleset_sku_capacity
-  master_scaleset_admin_user         = var.master_scaleset_admin_user
-  
-  worker_scaleset_size               = var.worker_scaleset_size
-  worker_scaleset_sku_capacity       = var.worker_scaleset_sku_capacity
-  worker_scaleset_admin_user         = var.worker_scaleset_admin_user
-  worker_lb_backend_address_pool_id  = [azurerm_lb_backend_address_pool.worker_lbap.id]
-  worker_lb_probe_id                 = azurerm_lb_probe.worker_ingress_probe.id
+  source                       = "../../rancher/cluster"
+  organisation                 = var.organisation
+  environment                  = var.environment
+  rancher_admin_url            = var.rancher_admin_url
+  rancher_internal_api_url     = var.rancher_internal_api_url
+  rancher_admin_token          = var.rancher_admin_token
+  rancher_projects             = var.rancher_projects
+  cluster_stage1_apps          = var.cluster_stage1_apps
+  cluster_name                 = local.cluster_name
+  rancher_agent_version        = var.rancher_agent_version
+  rancher_server_name          = var.rancher_server_name
+  rancher_internal_ip          = var.rancher_internal_ip
+  client_id                    = var.client_id
+  tenant_id                    = var.tenant_id
+  client_secret                = var.client_secret
+  subscription_id              = var.subscription_id
+  azure_region                 = var.azure_region
+  resource_group_name          = module.resource_group.name
+  security_group_id            = module.security_group.id
+  virtual_network_name         = var.cluster_network_name
+  subnet_name                  = var.cluster_subnet_name
+  subnet_id                    = var.cluster_subnet_id
+  master_scaleset_size         = var.master_scaleset_size
+  master_scaleset_sku_capacity = var.master_scaleset_sku_capacity
+  master_scaleset_admin_user   = var.master_scaleset_admin_user
 
-  os_publisher                       = var.os_publisher
-  os_offer                           = var.os_offer
-  os_sku                             = var.os_sku
-  os_version                         = var.os_version
-  public_key_openssh                 = var.public_key_openssh
-  helm_chart_repo_url                = var.helm_chart_repo_url
-  docker_config_json                 = var.docker_config_json
+  worker_scaleset_size              = var.worker_scaleset_size
+  worker_scaleset_sku_capacity      = var.worker_scaleset_sku_capacity
+  worker_scaleset_admin_user        = var.worker_scaleset_admin_user
+  worker_lb_backend_address_pool_id = [azurerm_lb_backend_address_pool.worker_lbap.id]
+  worker_lb_probe_id                = azurerm_lb_probe.worker_ingress_probe.id
 
-  default_worker_template_id        = module.default_worker_template.id
-  default_master_template_id        = module.default_master_template.id
-  add_master_scaleset               = true #this also manages the master nodepool
-  add_worker_scaleset               = true
-  add_worker_nodepool               = false
-  cluster_worker_labels             = {}
-  cluster_worker_taints             = []
-  admin_cluster_lb_name             = trimsuffix(azurerm_dns_a_record.main_worker.fqdn,".") 
-  policy_update_endpoint_csv        = join(",",[
-  for cluster in var.cluster_endpoints:
+  os_publisher        = var.os_publisher
+  os_offer            = var.os_offer
+  os_sku              = var.os_sku
+  os_version          = var.os_version
+  public_key_openssh  = var.public_key_openssh
+  helm_chart_repo_url = var.helm_chart_repo_url
+  docker_config_json  = var.docker_config_json
+
+  default_worker_template_id = module.default_worker_template.id
+  default_master_template_id = module.default_master_template.id
+  add_master_scaleset        = true #this also manages the master nodepool
+  add_worker_scaleset        = true
+  add_worker_nodepool        = false
+  cluster_worker_labels      = {}
+  cluster_worker_taints      = []
+  admin_cluster_lb_name      = trimsuffix(azurerm_dns_a_record.main_worker.fqdn, ".")
+  policy_update_endpoint_csv = join(",", [
+    for cluster in var.cluster_endpoints :
     "https://${cluster}:32324/"
   ])
-  transaction_event_endpoint_csv    = join(",",[
-  for cluster in var.cluster_endpoints:
+  transaction_event_endpoint_csv = join(",", [
+    for cluster in var.cluster_endpoints :
     "https://${cluster}:32325/"
   ])
-  ncfs_endpoint_csv                 = join(",",[
-  for cluster in var.cluster_endpoints:
+  ncfs_endpoint_csv = join(",", [
+    for cluster in var.cluster_endpoints :
     "https://${cluster}:32326/"
   ])
 }

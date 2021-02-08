@@ -56,7 +56,7 @@ variable "subnet_prefix" {
 
 variable "git_server_version" {
   description = "Git server docker tag version"
-  type = string
+  type        = string
 }
 
 variable "key_vault_resource_group" {
@@ -66,7 +66,7 @@ variable "key_vault_resource_group" {
 
 variable "key_vault_name" {
   description = "Git server docker tag version"
-  type = string
+  type        = string
 }
 
 variable "container_registry_url" {
@@ -76,5 +76,5 @@ variable "container_registry_url" {
 
 variable "rancher_server_version" {
   description = "Rancher server version"
-  type = string
+  type        = string
 }

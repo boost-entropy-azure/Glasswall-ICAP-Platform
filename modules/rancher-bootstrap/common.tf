@@ -19,9 +19,9 @@ module "resource_group" {
 }
 
 module "network" {
-  source              = "../azure/network"
-  resource_group      = module.resource_group.name
-  region              = var.azure_region
+  source         = "../azure/network"
+  resource_group = module.resource_group.name
+  region         = var.azure_region
   service_name   = local.service_name
   address_space  = var.network_addresses
   organisation   = var.organisation
@@ -37,15 +37,15 @@ module "subnet" {
 }
 
 module "nat" {
-  source    = "../azure/nat-gateway"
-  service_name        = local.service_name
-  resource_group      = module.resource_group.name
-  azure_region        = var.azure_region
+  source         = "../azure/nat-gateway"
+  service_name   = local.service_name
+  resource_group = module.resource_group.name
+  azure_region   = var.azure_region
 }
 
 resource "azurerm_subnet_nat_gateway_association" "main" {
-  subnet_id           = module.subnet.id
-  nat_gateway_id      = module.nat.nat_gateway_id
+  subnet_id      = module.subnet.id
+  nat_gateway_id = module.nat.nat_gateway_id
 }
 
 resource "azurerm_dns_zone" "main" {
@@ -58,7 +58,7 @@ resource "azurerm_dns_ns_record" "child" {
   zone_name           = "icap-proxy.curlywurly.me"
   resource_group_name = "gw-icap-rg-dns"
   ttl                 = 300
-  records = azurerm_dns_zone.main.name_servers
+  records             = azurerm_dns_zone.main.name_servers
 }
 
 resource "time_sleep" "wait_60_seconds" {

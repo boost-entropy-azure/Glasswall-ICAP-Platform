@@ -51,27 +51,27 @@ module "git_server" {
   public_ip_id       = module.git_server_public_ip.id
   public_key_openssh = tls_private_key.ssh.public_key_openssh
   security_group_rules = {
-   ssh = {
-      name                                      = "git_ssh"
-      priority                                  = "1003"
-      direction                                 = "Inbound"
-      access                                    = "Allow"
-      protocol                                  = "tcp"
-      source_port_range                         = "*"
-      destination_port_range                    = "22"
-      source_address_prefix                     = "*"
-      destination_address_prefix                = "*"
-  },
-  http = {
-      name                                      = "git_http"
-      priority                                  = "1004"
-      direction                                 = "Inbound"
-      access                                    = "Allow"
-      protocol                                  = "tcp"
-      source_port_range                         = "*"
-      destination_port_range                    = "80"
-      source_address_prefix                     = "*"
-      destination_address_prefix                = "*"
+    ssh = {
+      name                       = "git_ssh"
+      priority                   = "1003"
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "tcp"
+      source_port_range          = "*"
+      destination_port_range     = "22"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
+    },
+    http = {
+      name                       = "git_http"
+      priority                   = "1004"
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "tcp"
+      source_port_range          = "*"
+      destination_port_range     = "80"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
     }
   }
 }
@@ -88,28 +88,28 @@ module "security_group_rules" {
   source                      = "../azure/security-group-rules"
   network_security_group_name = module.security_group.name
   resource_group_name         = module.resource_group.name
-  security_group_rules        = {
-   ssh = {
-      name                                      = "git_ssh"
-      priority                                  = "1003"
-      direction                                 = "Inbound"
-      access                                    = "Allow"
-      protocol                                  = "tcp"
-      source_port_range                         = "*"
-      destination_port_range                    = "22"
-      source_address_prefix                     = module.rancher_server.linux_vm_private_ips
-      destination_address_prefix                = module.git_server.linux_vm_private_ips
-  },
-  http = {
-      name                                      = "git_http"
-      priority                                  = "1004"
-      direction                                 = "Inbound"
-      access                                    = "Allow"
-      protocol                                  = "tcp"
-      source_port_range                         = "*"
-      destination_port_range                    = "80"
-      source_address_prefix                     = module.rancher_server.linux_vm_private_ips
-      destination_address_prefix                = module.git_server.linux_vm_private_ips
+  security_group_rules = {
+    ssh = {
+      name                       = "git_ssh"
+      priority                   = "1003"
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "tcp"
+      source_port_range          = "*"
+      destination_port_range     = "22"
+      source_address_prefix      = module.rancher_server.linux_vm_private_ips
+      destination_address_prefix = module.git_server.linux_vm_private_ips
+    },
+    http = {
+      name                       = "git_http"
+      priority                   = "1004"
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "tcp"
+      source_port_range          = "*"
+      destination_port_range     = "80"
+      source_address_prefix      = module.rancher_server.linux_vm_private_ips
+      destination_address_prefix = module.git_server.linux_vm_private_ips
     }
   }
 }

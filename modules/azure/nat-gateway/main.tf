@@ -5,7 +5,7 @@ resource "azurerm_public_ip" "main" {
   allocation_method   = "Static"
   sku                 = "Standard"
   tags = {
-    service_name = var.service_name    
+    service_name = var.service_name
   }
 }
 
@@ -16,7 +16,7 @@ resource "azurerm_nat_gateway" "main" {
   sku_name                = "Standard"
   idle_timeout_in_minutes = 4
   tags = {
-    service_name = var.service_name    
+    service_name = var.service_name
   }
 }
 

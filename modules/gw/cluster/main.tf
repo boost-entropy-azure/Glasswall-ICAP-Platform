@@ -77,59 +77,59 @@ module "default_worker_template" {
 }
 
 module "cluster" {
-  source                            = "../../rancher/cluster"
-  count                             = var.cluster_quantity
-  organisation                      = var.organisation
-  environment                       = var.environment
-  rancher_admin_url                 = var.rancher_admin_url
-  rancher_internal_api_url          = var.rancher_internal_api_url
-  rancher_admin_token               = var.rancher_admin_token
-  rancher_projects                  = var.rancher_projects
-  rancher_agent_version             = var.rancher_agent_version
-  rancher_internal_ip               = var.rancher_internal_ip
-  rancher_server_name               = var.rancher_server_name
-  cluster_name                      = "${local.cluster_name}${count.index+1}"
-  cluster_stage1_apps               = var.cluster_stage1_apps
-  client_id                         = var.client_id
-  tenant_id                         = var.tenant_id
-  client_secret                     = var.client_secret
-  subscription_id                   = var.subscription_id
-  azure_region                      = var.azure_region
+  source                   = "../../rancher/cluster"
+  count                    = var.cluster_quantity
+  organisation             = var.organisation
+  environment              = var.environment
+  rancher_admin_url        = var.rancher_admin_url
+  rancher_internal_api_url = var.rancher_internal_api_url
+  rancher_admin_token      = var.rancher_admin_token
+  rancher_projects         = var.rancher_projects
+  rancher_agent_version    = var.rancher_agent_version
+  rancher_internal_ip      = var.rancher_internal_ip
+  rancher_server_name      = var.rancher_server_name
+  cluster_name             = "${local.cluster_name}${count.index + 1}"
+  cluster_stage1_apps      = var.cluster_stage1_apps
+  client_id                = var.client_id
+  tenant_id                = var.tenant_id
+  client_secret            = var.client_secret
+  subscription_id          = var.subscription_id
+  azure_region             = var.azure_region
 
-  resource_group_name               = module.infra.resource_group_name
-  virtual_network_name              = module.infra.network_name
-  subnet_name                       = module.infra.subnet_name
-  subnet_id                         = module.infra.subnet_id
-  security_group_id                 = module.infra.security_group_id
+  resource_group_name  = module.infra.resource_group_name
+  virtual_network_name = module.infra.network_name
+  subnet_name          = module.infra.subnet_name
+  subnet_id            = module.infra.subnet_id
+  security_group_id    = module.infra.security_group_id
 
-  master_scaleset_size              = var.master_scaleset_size
-  master_scaleset_sku_capacity      = var.master_scaleset_sku_capacity
-  master_scaleset_admin_user        = var.master_scaleset_admin_user
-  
+  master_scaleset_size         = var.master_scaleset_size
+  master_scaleset_sku_capacity = var.master_scaleset_sku_capacity
+  master_scaleset_admin_user   = var.master_scaleset_admin_user
+
   worker_scaleset_size              = var.worker_scaleset_size
   worker_scaleset_sku_capacity      = var.worker_scaleset_sku_capacity
   worker_scaleset_admin_user        = var.worker_scaleset_admin_user
-  worker_lb_backend_address_pool_id = [ module.infra.worker_lbap_id, module.infra.int_worker_lbap_id ]
+  worker_lb_backend_address_pool_id = [module.infra.worker_lbap_id, module.infra.int_worker_lbap_id]
   worker_lb_probe_id                = module.infra.worker_ingress_probe_id
 
-  os_publisher                      = var.os_publisher
-  os_offer                          = var.os_offer
-  os_sku                            = var.os_sku
-  os_version                        = var.os_version
-  public_key_openssh                = var.public_key_openssh
-  helm_chart_repo_url               = var.helm_chart_repo_url
-  docker_config_json                = var.docker_config_json
+  os_publisher        = var.os_publisher
+  os_offer            = var.os_offer
+  os_sku              = var.os_sku
+  os_version          = var.os_version
+  public_key_openssh  = var.public_key_openssh
+  helm_chart_repo_url = var.helm_chart_repo_url
+  docker_config_json  = var.docker_config_json
 
-  default_worker_template_id        = module.default_worker_template.id
-  default_master_template_id        = module.default_master_template.id
-  add_master_scaleset               = true
-  add_worker_scaleset               = true
-  add_worker_nodepool               = true
-  cluster_worker_labels             = { nodeType = "stateful" }
-  cluster_worker_taints             = [{
-                                      key = "dedicated"
-                                      value = "stateful"
-                                      effect = "NoSchedule"
-                                    }]
+  default_worker_template_id = module.default_worker_template.id
+  default_master_template_id = module.default_master_template.id
+  add_master_scaleset        = true
+  add_worker_scaleset        = true
+  add_worker_nodepool        = true
+  cluster_worker_labels      = { nodeType = "stateful" }
+  cluster_worker_taints = [{
+    key    = "dedicated"
+    value  = "stateful"
+    effect = "NoSchedule"
+  }]
 }
 
