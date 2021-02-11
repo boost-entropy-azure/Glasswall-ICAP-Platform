@@ -14,16 +14,6 @@ variable "branch" {
   type        = string
 }
 
-variable "client_id" {
-  description = "Client ID (Confidential, non-commitable)"
-  type        = string
-}
-
-variable "client_secret" {
-  description = "Client Secret (Confidential, non-commitable)"
-  type        = string
-}
-
 variable "subscription_id" {
   description = "Subscription ID"
   type        = string
