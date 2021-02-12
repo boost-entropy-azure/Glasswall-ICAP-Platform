@@ -139,3 +139,6 @@ override.tf.json
 /workspace/gitserver/.terraform/
 **/key.pem
 **/key.rsa
+
+# Container images
+_image**
