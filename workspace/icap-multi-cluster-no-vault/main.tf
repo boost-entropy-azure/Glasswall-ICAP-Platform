@@ -66,7 +66,7 @@ module "setting" {
   setting_value     = var.rancher_api_url
 }
 
-# module.setting reboots the rancher server (it also recycles the certs) which might be 
+# module.setting reboots the rancher server (it also recycles the certs) which might be
 # causing issues with the catalog deployment right below.
 resource "time_sleep" "wait_60_for_rancher_setting" {
   depends_on      = [module.setting]
