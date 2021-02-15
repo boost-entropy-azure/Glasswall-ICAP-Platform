@@ -36,7 +36,6 @@ importImages() {
     image_relative_path=""
     image_absolute_path=""
     gw_image_full_name=""
-    gw_image_tgged_name=""
     client_image_full_name=""
     client_image_name_no_tag=""
     if [[ $repository == *"/"* ]]; then
@@ -49,11 +48,9 @@ importImages() {
       if [[ $repository_name == *""* ]]; then
         echo "Repository is NOT empty '/'"
         gw_image_full_name="$glasswallRegistry/$repository_name/$image_name:$tag"
-        gw_image_tgged_name="$repository_name/$image_name:$tag"
       else
         echo "Repository is empty '/'"
         gw_image_full_name="$glasswallRegistry/$image_name:$tag"
-        gw_image_tgged_name="$image_name:$tag"
       fi
 
       client_image_full_name="$final_registry/$repository_name/$image_name:$tag"
@@ -68,11 +65,9 @@ importImages() {
       if [[ $repository_name == *""* ]]; then
         echo "Repository is empty '/'"
         gw_image_full_name="$glasswallRegistry/$image_name:$tag"
-        gw_image_tgged_name="$image_name:$tag"
       else
         echo "Repository is NOT empty '/'"
         gw_image_full_name="$glasswallRegistry/$repository_name/$image_name:$tag"
-        gw_image_tgged_name="$repository_name/$image_name:$tag"
       fi
 
       client_image_full_name="$final_registry/$image_name:$tag"
@@ -104,7 +99,7 @@ importImages() {
       echo "Image ID is:" $image_exists
     fi
 
-    docker tag "$gw_image_tgged_name" "$client_image_full_name"
+    docker tag "$gw_image_full_name" "$client_image_full_name"
     echo "Image tagged:" $client_image_full_name
 
     docker push $client_image_full_name
