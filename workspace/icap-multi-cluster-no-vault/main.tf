@@ -9,7 +9,7 @@ locals {
   cluster_catalogs = {
     icap-catalog = {
       helm_charts_repo_url    = "${var.git_server_url}/icap-infrastructure.git"
-      helm_charts_repo_branch = "add-image-registry"
+      helm_charts_repo_branch = "rancher-develop"
     }
   }
   azure_icap_clusters = {
