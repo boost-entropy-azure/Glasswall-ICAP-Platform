@@ -1,11 +1,11 @@
 
 locals {
-  short_region_r1          = substr(var.azure_region_r1, 0, 3)
-  short_region_r2          = substr(var.azure_region_r2, 0, 3)
-  service_name             = "${var.organisation}-${var.project}-${var.environment}"
-  admin_service_name       = "${var.organisation}-${var.project}-admin-${var.environment}"
-  service_name_nodash_r1   = "${var.organisation}icap${var.environment}${local.short_region_r1}"
-  service_name_nodash_r2   = "${var.organisation}icap${var.environment}${local.short_region_r2}"
+  short_region_r1        = substr(var.azure_region_r1, 0, 3)
+  short_region_r2        = substr(var.azure_region_r2, 0, 3)
+  service_name           = "${var.organisation}-${var.project}-${var.environment}"
+  admin_service_name     = "${var.organisation}-${var.project}-admin-${var.environment}"
+  service_name_nodash_r1 = "${var.organisation}icap${var.environment}${local.short_region_r1}"
+  service_name_nodash_r2 = "${var.organisation}icap${var.environment}${local.short_region_r2}"
   cluster_catalogs = {
     icap-catalog = {
       helm_charts_repo_url    = "${var.git_server_url}/icap-infrastructure.git"
@@ -61,9 +61,9 @@ locals {
 }
 
 module "setting" {
-  source            = "../../modules/rancher/setting"
-  setting_name      = "server-url"
-  setting_value     = var.rancher_api_url
+  source        = "../../modules/rancher/setting"
+  setting_name  = "server-url"
+  setting_value = var.rancher_api_url
 }
 
 # module.setting reboots the rancher server (it also recycles the certs) which might be
@@ -74,11 +74,11 @@ resource "time_sleep" "wait_60_for_rancher_setting" {
 }
 
 module "catalog" {
-  source                       = "../../modules/rancher/catalogue"
-  for_each                     = local.cluster_catalogs
-  name                         = each.key
-  helm_charts_repo_url         = each.value.helm_charts_repo_url
-  helm_charts_repo_branch      = each.value.helm_charts_repo_branch
+  source                  = "../../modules/rancher/catalogue"
+  for_each                = local.cluster_catalogs
+  name                    = each.key
+  helm_charts_repo_url    = each.value.helm_charts_repo_url
+  helm_charts_repo_branch = each.value.helm_charts_repo_branch
 }
 
 module "icap_clusters" {
@@ -104,7 +104,7 @@ module "icap_clusters" {
   worker_scaleset_size         = each.value.worker_scaleset_size
   worker_scaleset_admin_user   = each.value.worker_scaleset_admin_user
   worker_scaleset_sku_capacity = each.value.worker_scaleset_sku_capacity
-  security_group_rules         = {
+  security_group_rules = {
     icap = {
       name                       = "icapNodePort"
       priority                   = 1004
@@ -139,27 +139,27 @@ module "icap_clusters" {
       destination_address_prefix = "*"
     }
   }
-  organisation                 = var.organisation
-  environment                  = var.environment
-  dns_zone                     = var.dns_zone
-  cluster_stage1_apps          = var.icap_cluster_stage1_apps
-  rancher_admin_url            = var.rancher_api_url
-  rancher_internal_api_url     = var.rancher_internal_api_url
-  rancher_admin_token          = var.rancher_admin_token
-  rancher_network              = var.rancher_network
-  rancher_resource_group       = var.rancher_resource_group
-  rancher_agent_version        = var.rancher_agent_version
-  rancher_internal_ip          = var.rancher_internal_ip
+  organisation             = var.organisation
+  environment              = var.environment
+  dns_zone                 = var.dns_zone
+  cluster_stage1_apps      = var.icap_cluster_stage1_apps
+  rancher_admin_url        = var.rancher_api_url
+  rancher_internal_api_url = var.rancher_internal_api_url
+  rancher_admin_token      = var.rancher_admin_token
+  rancher_network          = var.rancher_network
+  rancher_resource_group   = var.rancher_resource_group
+  rancher_agent_version    = var.rancher_agent_version
+  rancher_internal_ip      = var.rancher_internal_ip
   rancher_server_name      = var.rancher_server_name
-  service_name                 = local.service_name
-  client_id                    = data.azurerm_key_vault_secret.az-client-id.value
-  client_secret                = data.azurerm_key_vault_secret.az-client-secret.value
-  subscription_id              = data.azurerm_key_vault_secret.az-subscription-id.value
-  tenant_id                    = var.tenant_id
-  public_key_openssh           = var.public_key_openssh
-  rancher_network_id           = var.rancher_network_id
-  helm_chart_repo_url          = "${var.git_server_url}/icap-infrastructure.git"
-  docker_config_json           = data.azurerm_key_vault_secret.docker-config-json.value
+  service_name             = local.service_name
+  client_id                = data.azurerm_key_vault_secret.az-client-id.value
+  client_secret            = data.azurerm_key_vault_secret.az-client-secret.value
+  subscription_id          = data.azurerm_key_vault_secret.az-subscription-id.value
+  tenant_id                = var.tenant_id
+  public_key_openssh       = var.public_key_openssh
+  rancher_network_id       = var.rancher_network_id
+  helm_chart_repo_url      = "${var.git_server_url}/icap-infrastructure.git"
+  docker_config_json       = data.azurerm_key_vault_secret.docker-config-json.value
 }
 
 module "admin_cluster" {
@@ -173,18 +173,18 @@ module "admin_cluster" {
   rancher_network          = var.rancher_network
   rancher_network_id       = var.rancher_network_id
   # we may not want to always reuse the same resource_group.
-  rancher_resource_group   = var.rancher_resource_group
-  rancher_agent_version    = var.rancher_agent_version
-  cluster_network_name     = var.rancher_network_name
-  cluster_subnet_name      = var.rancher_subnet_name
-  cluster_subnet_id        = var.rancher_subnet_id
-  cluster_backend_port     = var.admin_cluster_backend_port
-  cluster_public_port      = var.admin_cluster_public_port
-  cluster_stage1_apps      = var.admin_cluster_stage1_apps
-  cluster_subnet_prefix    = var.rancher_subnet_prefix
-  rancher_internal_ip      = var.rancher_internal_ip
-  rancher_server_name      = var.rancher_server_name
-  service_name             = local.admin_service_name
+  rancher_resource_group = var.rancher_resource_group
+  rancher_agent_version  = var.rancher_agent_version
+  cluster_network_name   = var.rancher_network_name
+  cluster_subnet_name    = var.rancher_subnet_name
+  cluster_subnet_id      = var.rancher_subnet_id
+  cluster_backend_port   = var.admin_cluster_backend_port
+  cluster_public_port    = var.admin_cluster_public_port
+  cluster_stage1_apps    = var.admin_cluster_stage1_apps
+  cluster_subnet_prefix  = var.rancher_subnet_prefix
+  rancher_internal_ip    = var.rancher_internal_ip
+  rancher_server_name    = var.rancher_server_name
+  service_name           = local.admin_service_name
   suffix                 = var.rancher_suffix
   azure_region           = var.rancher_region
   client_id              = data.azurerm_key_vault_secret.az-client-id.value
@@ -197,7 +197,7 @@ module "admin_cluster" {
   os_sku                 = var.os_sku
   os_version             = var.os_version
   rancher_projects       = "adminservice"
-  security_group_rules         = {
+  security_group_rules = {
     admin = {
       name                       = "adminNodePort"
       priority                   = 1006

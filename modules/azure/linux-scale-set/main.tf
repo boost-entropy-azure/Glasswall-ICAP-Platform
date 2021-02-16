@@ -9,7 +9,7 @@ module "security_group" {
 }
 
 resource "azurerm_linux_virtual_machine_scale_set" "cluster_scaleset_lb" {
-  count                           = var.loadbalancer? 1 : 0 
+  count                           = var.loadbalancer ? 1 : 0
   name                            = var.service_name
   location                        = var.region
   resource_group_name             = var.resource_group
@@ -21,16 +21,16 @@ resource "azurerm_linux_virtual_machine_scale_set" "cluster_scaleset_lb" {
   health_probe_id                 = var.lb_probe_id
   custom_data                     = base64encode(var.custom_data)
   source_image_reference {
-    publisher                     = var.os_publisher
-    offer                         = var.os_offer
-    sku                           = var.os_sku
-    version                       = var.os_version
+    publisher = var.os_publisher
+    offer     = var.os_offer
+    sku       = var.os_sku
+    version   = var.os_version
   }
 
   os_disk {
-    storage_account_type          = "Standard_LRS"
-    caching                       = "ReadWrite"
-    disk_size_gb                  = 120
+    storage_account_type = "Standard_LRS"
+    caching              = "ReadWrite"
+    disk_size_gb         = 120
   }
 
   /*data_disk {
@@ -42,14 +42,14 @@ resource "azurerm_linux_virtual_machine_scale_set" "cluster_scaleset_lb" {
   }*/
 
   admin_ssh_key {
-    username                      = var.admin_username
-    public_key                    = var.public_key_openssh
+    username   = var.admin_username
+    public_key = var.public_key_openssh
   }
 
   network_interface {
-    name                          = "${var.service_name}-net-profile"
-    primary                       = true
-    network_security_group_id     = module.security_group.id
+    name                      = "${var.service_name}-net-profile"
+    primary                   = true
+    network_security_group_id = module.security_group.id
 
     ip_configuration {
       name                                   = "${var.service_name}-ip-config"
@@ -59,15 +59,15 @@ resource "azurerm_linux_virtual_machine_scale_set" "cluster_scaleset_lb" {
     }
   }
   tags = {
-    "kubernetes.io/cluster/${var.tag_cluster_id}" = "owned"
+    "kubernetes.io/cluster/${var.tag_cluster_id}"       = "owned"
     "k8s.io/cluster-autoscaler/${var.tag_cluster_name}" = var.tag_cluster_autoscaler_status
-    "k8s.io/cluster-autoscaler/enabled" = var.tag_cluster_autoscaler_status
-    "roles" = var.tag_cluster_role
+    "k8s.io/cluster-autoscaler/enabled"                 = var.tag_cluster_autoscaler_status
+    "roles"                                             = var.tag_cluster_role
   }
 }
 
 resource "azurerm_linux_virtual_machine_scale_set" "cluster_scaleset_nolb" {
-  count                           = var.loadbalancer? 0 : 1 
+  count                           = var.loadbalancer ? 0 : 1
   name                            = var.service_name
   location                        = var.region
   resource_group_name             = var.resource_group
@@ -82,16 +82,16 @@ resource "azurerm_linux_virtual_machine_scale_set" "cluster_scaleset_nolb" {
   # required when using rolling upgrade policy
 
   source_image_reference {
-    publisher                     = var.os_publisher
-    offer                         = var.os_offer
-    sku                           = var.os_sku
-    version                       = var.os_version
+    publisher = var.os_publisher
+    offer     = var.os_offer
+    sku       = var.os_sku
+    version   = var.os_version
   }
-  
+
   os_disk {
-    storage_account_type          = "Standard_LRS"
-    caching                       = "ReadWrite"
-    disk_size_gb                  = 120
+    storage_account_type = "Standard_LRS"
+    caching              = "ReadWrite"
+    disk_size_gb         = 120
   }
 
   /*data_disk {
@@ -103,25 +103,25 @@ resource "azurerm_linux_virtual_machine_scale_set" "cluster_scaleset_nolb" {
   }*/
 
   admin_ssh_key {
-    username                      = var.admin_username
-    public_key                    = var.public_key_openssh
+    username   = var.admin_username
+    public_key = var.public_key_openssh
   }
 
-  network_interface {    
-    name    = "${var.service_name}-net-profile"
-    primary = true
-    network_security_group_id     = module.security_group.id
+  network_interface {
+    name                      = "${var.service_name}-net-profile"
+    primary                   = true
+    network_security_group_id = module.security_group.id
 
     ip_configuration {
-      name                        = "${var.service_name}-ip-config"
-      primary                     = true
-      subnet_id                   =  var.subnet_id
+      name      = "${var.service_name}-ip-config"
+      primary   = true
+      subnet_id = var.subnet_id
     }
   }
   tags = {
-    "kubernetes.io/cluster/${var.tag_cluster_id}" = "owned"
+    "kubernetes.io/cluster/${var.tag_cluster_id}"       = "owned"
     "k8s.io/cluster-autoscaler/${var.tag_cluster_name}" = var.tag_cluster_autoscaler_status
-    "k8s.io/cluster-autoscaler/enabled" = var.tag_cluster_autoscaler_status
-    "roles" = var.tag_cluster_role
+    "k8s.io/cluster-autoscaler/enabled"                 = var.tag_cluster_autoscaler_status
+    "roles"                                             = var.tag_cluster_role
   }
 }
