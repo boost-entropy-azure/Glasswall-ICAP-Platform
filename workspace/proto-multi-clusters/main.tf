@@ -54,7 +54,7 @@ locals {
       worker_scaleset_sku_capacity = var.icap_worker_scaleset_sku_capacity
       rancher_projects             = "icapservice"
       icap_internal_services       = var.icap_internal_services
-    },
+    }/*,
     ukwest = {
       suffix                       = var.icap_cluster_suffix_r2
       cluster_quantity             = var.icap_cluster_quantity
@@ -100,7 +100,7 @@ locals {
       worker_scaleset_sku_capacity = var.icap_worker_scaleset_sku_capacity
       rancher_projects             = "icapservice"
       icap_internal_services       = var.icap_internal_services
-    }
+    }*/
   }
 }
 
@@ -242,6 +242,7 @@ module "icap_clusters" {
   helm_chart_repo_url      = "${var.git_server_url}/icap-infrastructure.git"
   docker_config_json       = data.azurerm_key_vault_secret.docker-config-json.value
 }
+
 
 module "admin_cluster" {
   source                   = "../../modules/gw/standalone-cluster"
