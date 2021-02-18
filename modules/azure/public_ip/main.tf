@@ -8,7 +8,7 @@ resource "azurerm_public_ip" "public_ip" {
   tags = {
     org          = var.organisation
     environment  = var.environment
-    service_name = var.service_name    
+    service_name = var.service_name
     service_type = var.service_type
   }
 }

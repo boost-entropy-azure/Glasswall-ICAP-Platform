@@ -6,7 +6,7 @@ resource "azurerm_public_ip" "public_ip" {
   allocation_method   = "Static"
   sku                 = "Standard"
   tags = {
-    service_name = var.service_name    
+    service_name = var.service_name
   }
 }
 
@@ -20,6 +20,6 @@ resource "azurerm_lb" "lb" {
     public_ip_address_id = azurerm_public_ip.public_ip.id
   }
   tags = {
-    service_name = var.service_name      
+    service_name = var.service_name
   }
 }

@@ -46,7 +46,7 @@ variable "size" {
 
 variable "git_server_version" {
   description = "Git server docker tag version"
-  type = string
+  type        = string
 }
 
 variable "key_vault_resource_group" {
@@ -56,19 +56,24 @@ variable "key_vault_resource_group" {
 
 variable "key_vault_name" {
   description = "Key vault name"
-  type = string
+  type        = string
+}
+
+variable "container_registry_url" {
+  default = "The Container Registry URL"
+  type    = string
 }
 
 variable "rancher_server_version" {
   description = "Rancher server version"
-  type = string
-  default = "v2.5.2"
+  type        = string
+  default     = "v2.5.2"
 }
 
 variable "rancher_agent_version" {
   description = "Rancher agent version"
-  type = string
-  default = "v2.5.2"
+  type        = string
+  default     = "v2.5.2"
 }
 
 variable "network_addresses" {

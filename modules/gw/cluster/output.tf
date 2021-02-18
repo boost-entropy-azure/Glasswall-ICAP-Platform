@@ -20,14 +20,14 @@ output "subnet_name" {
 
 output "system_ids" {
   value = [
-    for cluster in module.cluster:
+    for cluster in module.cluster :
     cluster.system_id
   ]
 }
 
 output "project_ids" {
   value = [
-    for cluster in module.cluster:
+    for cluster in module.cluster :
     cluster.project_id
   ]
 }

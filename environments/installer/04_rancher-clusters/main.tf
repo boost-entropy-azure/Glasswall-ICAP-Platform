@@ -18,7 +18,7 @@ data "terraform_remote_state" "rancher_server" {
 }
 
 module "rancher_clusters" {
-    source                            = "../../../workspace/icap-multi-cluster-no-vault"
+    source                            = "../../../workspace/proto-multi-clusters"
     organisation                      = ""
     environment                       = ""
     branch                            = "release"
@@ -31,8 +31,8 @@ module "rancher_clusters" {
     dns_zone                          = "" # needs to be an existing azure dns zone
     subscription_id                   = ""
     tenant_id                         = ""
-    client_id                         = ""
-    client_secret                     = ""
+    azure_keyvault_name               = ""
+    azure_keyvault_resource_group     = ""
     rancher_suffix                    = data.terraform_remote_state.rancher_server.outputs.rancher_suffix
     rancher_api_url                   = data.terraform_remote_state.rancher_server.outputs.rancher_api_url
     rancher_internal_api_url          = data.terraform_remote_state.rancher_server.outputs.rancher_internal_api_url

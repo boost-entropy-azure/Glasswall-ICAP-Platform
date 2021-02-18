@@ -40,34 +40,16 @@ variable "azure_region_r1" {
   default     = "northeurope"
 }
 
-variable "fault_domain_count_r1" {
-  description = "Azure Fault Domain count"
-  type = string
-  default = "3"
-}
-
 variable "azure_region_r2" {
   description = "Metadata Azure Region"
   type        = string
   default     = "ukwest"
 }
 
-variable "fault_domain_count_r2" {
-  description = "Azure Fault Domain count"
-  type = string
-  default = "2"
-}
-
 variable "azure_region_r3" {
   description = "Metadata Azure Region"
   type        = string
   default     = "uksouth"
-}
-
-variable "fault_domain_count_r3" {
-  description = "Azure Fault Domain count"
-  type = string
-  default = "2"
 }
 
 variable "icap_cluster_address_space_r1" {
@@ -257,13 +239,13 @@ variable "os_version" {
 
 variable "icap_cluster_stage1_apps" {
   description = "A list of apps"
-    type = map(object({
-      namespace        = string
-      catalog_name     = string
-      template_name    = string
-      create_namespace = bool
-      system_app       = bool
-    }))
+  type = map(object({
+    namespace        = string
+    catalog_name     = string
+    template_name    = string
+    create_namespace = bool
+    system_app       = bool
+  }))
   default = {
     rabbitmq_operator = {
       namespace        = "rabbitmq-system"
@@ -400,69 +382,88 @@ variable "filedrop_cluster_apps" {
 }*/
 
 variable "rancher_suffix" {
-  type        = string
+  type = string
 }
 
 variable "rancher_api_url" {
-  type        = string
+  type = string
 }
 
 variable "rancher_internal_api_url" {
-  type        = string
+  type = string
 }
 
 variable "rancher_network" {
-  type        = string
+  type = string
 }
 
 variable "rancher_network_name" {
-  type        = string
+  type = string
 }
 
 variable "rancher_server_name" {
-  type        = string
+  type = string
 }
 
 variable "rancher_admin_token" {
-  type        = string
+  type = string
 }
 
 variable "rancher_network_id" {
-  type        = string
+  type = string
 }
 
 variable "rancher_resource_group" {
-  type        = string
+  type = string
 }
 
 variable "rancher_subnet_id" {
-  type        = string
+  type = string
 }
 
 variable "rancher_subnet_prefix" {
-  type        = string
+  type = string
 }
 
 variable "rancher_subnet_name" {
-  type        = string
+  type = string
 }
 
 variable "rancher_region" {
-  type        = string
+  type = string
 }
 
 variable "rancher_agent_version" {
-  type        = string
+  type = string
 }
 
 variable "git_server_url" {
-  type        = string
+  type = string
 }
 
 variable "public_key_openssh" {
-  type        = string
+  type = string
 }
 
 variable "rancher_internal_ip" {
-  type        = string
+  type = string
+}
+
+variable "azure_keyvault_name" {
+  type = string
+}
+
+
+variable "azure_keyvault_resource_group" {
+  type = string
+}
+
+variable "azure_keyvault_client_id" {
+  type    = string
+  default = "az-client-id"
+}
+
+variable "azure_keyvault_client_secret" {
+  type    = string
+  default = "az-client-secret"
 }

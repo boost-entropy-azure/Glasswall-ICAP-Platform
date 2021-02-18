@@ -11,6 +11,6 @@ variable "location" {
 }
 
 variable "network_interface_id" {
-  type = string
+  type        = string
   description = "The network interface id to associate with the lb backend pool"
 }

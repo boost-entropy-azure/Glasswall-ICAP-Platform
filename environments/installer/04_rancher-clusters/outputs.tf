@@ -20,7 +20,7 @@ output "admin_project_ids" {
 }*/
 
 output "icap_loadbalancers" {
-  value =  module.rancher_clusters.icap_cluster_worker_lb_dns_names
+  value = module.rancher_clusters.icap_cluster_worker_lb_dns_names
 }
 /*
 output "admin_loadbalancers" {

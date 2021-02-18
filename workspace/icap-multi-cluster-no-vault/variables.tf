@@ -14,16 +14,6 @@ variable "branch" {
   type        = string
 }
 
-variable "client_id" {
-  description = "Client ID (Confidential, non-commitable)"
-  type        = string
-}
-
-variable "client_secret" {
-  description = "Client Secret (Confidential, non-commitable)"
-  type        = string
-}
-
 variable "subscription_id" {
   description = "Subscription ID"
   type        = string
@@ -203,13 +193,13 @@ variable "os_version" {
 
 variable "icap_cluster_stage1_apps" {
   description = "A list of apps"
-    type = map(object({
-      namespace        = string
-      catalog_name     = string
-      template_name    = string
-      create_namespace = bool
-      system_app       = bool
-    }))
+  type = map(object({
+    namespace        = string
+    catalog_name     = string
+    template_name    = string
+    create_namespace = bool
+    system_app       = bool
+  }))
   default = {
     rabbitmq_operator = {
       namespace        = "rabbitmq-system"
@@ -331,69 +321,69 @@ variable "filedrop_cluster_apps" {
 
 
 variable "rancher_suffix" {
-  type        = string
+  type = string
 }
 
 variable "rancher_api_url" {
-  type        = string
+  type = string
 }
 
 variable "rancher_internal_api_url" {
-  type        = string
+  type = string
 }
 
 variable "rancher_network" {
-  type        = string
+  type = string
 }
 
 variable "rancher_network_name" {
-  type        = string
+  type = string
 }
 
 variable "rancher_admin_token" {
-  type        = string
+  type = string
 }
 
 variable "rancher_network_id" {
-  type        = string
+  type = string
 }
 
 variable "rancher_resource_group" {
-  type        = string
+  type = string
 }
 
 variable "rancher_subnet_id" {
-  type        = string
+  type = string
 }
 
 variable "rancher_subnet_prefix" {
-  type        = string
+  type = string
 }
 
 variable "rancher_subnet_name" {
-  type        = string
+  type = string
 }
 
 variable "rancher_region" {
-  type        = string
+  type = string
 }
 
 variable "rancher_agent_version" {
-  type        = string
+  type = string
 }
 
 variable "git_server_url" {
-  type        = string
+  type = string
 }
 
 variable "public_key_openssh" {
-  type        = string
+  type = string
 }
 
 variable "rancher_internal_ip" {
-  type        = string
+  type = string
 }
 
 variable "rancher_server_name" {
-  type        = string
+  type = string
 }
