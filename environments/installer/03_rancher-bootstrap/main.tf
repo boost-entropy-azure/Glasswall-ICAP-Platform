@@ -1,5 +1,6 @@
 locals {
   kv_name = "${var.organisation}keyvault${var.environment}${var.suffix}"
+  dns_zone_name = "${var.environment}.${var.root_dns_zone_name}"
 }
 
 module "rancher_server" {
@@ -13,7 +14,9 @@ module "rancher_server" {
   key_vault_name           = local.kv_name
   container_registry_url   = var.container_registry_url
   azure_region             = var.azure_region
-  dns_zone_name            = var.dns_zone_name
+  dns_zone_name            = local.dns_zone_name
+  root_dns_zone_name       = var.root_dns_zone_name
+  rooot_dns_resource_group = var.rooot_dns_resource_group
   tenant_id                = var.tenant_id
   subscription_id          = var.subscription_id
 }

@@ -11,6 +11,8 @@ module "rancher_server" {
   environment              = var.environment
   suffix                   = var.suffix
   dns_zone                 = var.dns_zone_name
+  root_dns_name            = var.root_dns_zone_name
+  root_dns_rg              = var.rooot_dns_resource_group
   azure_region             = var.azure_region
   rancher_server_version   = var.rancher_server_version
   git_server_version       = var.git_server_version

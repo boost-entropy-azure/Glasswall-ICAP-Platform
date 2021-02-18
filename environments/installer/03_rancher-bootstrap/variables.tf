@@ -1,10 +1,10 @@
 variable "organisation" {
-  description = "An identifier for your orginzation, used in resource naming. Should be no longer than 4 character."
+  description = "An identifier for your organization, used in resource naming. Should be no longer than 4 character."
   type        = string
 }
 
 variable "tenant_id" {
-  description = "The tennant id for your Azure account."
+  description = "The tenant id for your Azure account."
   type        = string
 }
 
@@ -72,12 +72,17 @@ variable "icap_master_quantity" {
 }
 
 variable "icap_worker_quantity" {
-  description = "The number of icap workets to run in each cluster. This will deploy x workers per cluster. Defaults to 1."
+  description = "The number of icap workers to run in each cluster. This will deploy x workers per cluster. Defaults to 1."
   type        = string
   default     = 1
 }
 
-variable "dns_zone_name" {
-  description = "The DNS zone name to link the rancer resources to. such as securestuff.example.com."
+variable "root_dns_zone_name" {
+  description = "DNS Zone Name for the root DNS Zone in Azure. This is the preexisting DNS Zone in your Azure subscription."
+  type        = string
+}
+
+variable "rooot_dns_resource_group" {
+  description = "DNS Zone Resource Group for the root DNS Zone in Azure."
   type        = string
 }

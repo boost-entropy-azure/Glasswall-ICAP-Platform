@@ -55,8 +55,8 @@ resource "azurerm_dns_zone" "main" {
 
 resource "azurerm_dns_ns_record" "child" {
   name                = local.zone_prefix
-  zone_name           = azurerm_dns_zone.main.name
-  resource_group_name = module.resource_group.name
+  zone_name           = var.root_dns_name
+  resource_group_name = var.root_dns_rg
   ttl                 = 300
   records             = azurerm_dns_zone.main.name_servers
 }

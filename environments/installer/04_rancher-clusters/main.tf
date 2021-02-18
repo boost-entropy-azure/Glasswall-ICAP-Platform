@@ -3,6 +3,7 @@ locals {
   tfstate_resource_group       = "${var.organisation}-remotestatestore-${var.environment}-${var.suffix}"
   tfstate_storage_account_name = "${var.organisation}remotestatestore${var.environment}${var.suffix}"
   tfstate_key_03               = "${var.organisation}-rancherserver-${var.environment}-${var.suffix}.tfstate"
+  dns_zone_name = "${var.environment}.${var.root_dns_zone_name}"
 }
 
 data "terraform_remote_state" "rancher_server" {
@@ -26,7 +27,7 @@ module "rancher_clusters" {
   icap_cluster_quantity             = var.icap_cluster_quantity
   icap_master_scaleset_sku_capacity = var.icap_master_quantity
   icap_worker_scaleset_sku_capacity = var.icap_worker_quantity
-  dns_zone                          = var.dns_zone_name
+  dns_zone                          = local.dns_zone_name
   tenant_id                         = var.tenant_id
   subscription_id                   = var.subscription_id
   azure_keyvault_resource_group     = "${local.kv_name}-rg"
