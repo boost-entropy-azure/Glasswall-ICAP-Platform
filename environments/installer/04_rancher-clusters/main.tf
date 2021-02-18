@@ -1,17 +1,8 @@
 locals {
   kv_name                      = "${var.organisation}keyvault${var.environment}${var.suffix}"
-  tfstate_resource_group       = "${var.organisation}-${var.project}-${var.environment}-${var.suffix}"
-  tfstate_storage_account_name = "${var.organisation}${var.project}${var.environment}${var.suffix}"
+  tfstate_resource_group       = "${var.organisation}-remotestatestore-${var.environment}-${var.suffix}"
+  tfstate_storage_account_name = "${var.organisation}remotestatestore${var.environment}${var.suffix}"
   tfstate_key_03               = "${var.organisation}-rancherserver-${var.environment}-${var.suffix}.tfstate"
-}
-
-terraform {
-  backend "azurerm" {
-    resource_group_name  = ""
-    storage_account_name = ""
-    container_name       = ""
-    key                  = ""
-  }
 }
 
 data "terraform_remote_state" "rancher_server" {
@@ -19,7 +10,7 @@ data "terraform_remote_state" "rancher_server" {
   config = {
     resource_group_name  = local.tfstate_resource_group
     storage_account_name = local.tfstate_storage_account_name
-    container_name       = "${local.tfstate_storage_account_name}-state-storage"
+    container_name       = "${local.tfstate_resource_group}-state-storage"
     key                  = local.tfstate_key_03
   }
 }
@@ -38,8 +29,8 @@ module "rancher_clusters" {
   dns_zone                          = var.dns_zone_name
   tenant_id                         = var.tenant_id
   subscription_id                   = var.subscription_id
-  key_vault_resource_group          = "${local.kv_name}-rg"
-  key_vault_name                    = locla.kv_name
+  azure_keyvault_resource_group     = "${local.kv_name}-rg"
+  azure_keyvault_name               = local.kv_name
   rancher_suffix                    = data.terraform_remote_state.rancher_server.outputs.rancher_suffix
   rancher_api_url                   = data.terraform_remote_state.rancher_server.outputs.rancher_api_url
   rancher_internal_api_url          = data.terraform_remote_state.rancher_server.outputs.rancher_internal_api_url

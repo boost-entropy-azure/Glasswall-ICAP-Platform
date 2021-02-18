@@ -13,10 +13,32 @@ variable "subscription_id" {
   type        = string
 }
 
+variable "azure_region" {
+  description = "The Azure Region to deploy the infrastructure into."
+  type        = string
+}
+
 variable "environment" {
   description = "An environment name for this deployment, used in resource naming."
   type        = string
   default     = "prd"
+}
+
+variable "suffix" {
+  description = "A suffix to append to the resource names. Useful in creating multiple deployments on an Azure subscription. Defaults to z1."
+  type        = string
+  default     = "z1"
+}
+
+variable "rancher_suffix" {
+  description = "A suffix to append to the rancher resource names. Useful in creating multiple deployments on an Azure subscription. Defaults to a1."
+  type        = string
+  default     = "a1"
+}
+
+variable "container_registry_url" {
+  description = "The url of the Azure Container Registry created in step 02_container-registry. Should be like myregistry.azurecr.io."
+  type        = string
 }
 
 variable "cluster_1_suffix" {
@@ -58,10 +80,4 @@ variable "icap_worker_quantity" {
 variable "dns_zone_name" {
   description = "The DNS zone name to link the rancer resources to. Needs to be an existing DNS zone name."
   type        = string
-}
-
-variable "suffix" {
-  description = "A suffix used to create resources in stage 01 and 02. Defaults to z1."
-  type        = string
-  default     = "z1"
 }
