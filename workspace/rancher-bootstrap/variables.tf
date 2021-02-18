@@ -38,6 +38,18 @@ variable "dns_zone_name" {
   type        = string
 }
 
+variable "root_dns_zone_name" {
+  description = "DNS Zone Name for the root DNS Zone in Azure."
+  type        = string
+  default     = "icap-proxy.curlywurly.me"
+}
+
+variable "rooot_dns_resource_group" {
+  description = "DNS Zone Resource Group for the root DNS Zone in Azure."
+  type        = string
+  default     = "gw-icap-rg-dns"
+}
+
 variable "size" {
   description = "The azure virtual machine size"
   type        = string
