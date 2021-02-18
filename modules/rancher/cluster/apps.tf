@@ -12,7 +12,7 @@ resource "rancher2_project" "main" {
   cluster_id       = rancher2_cluster.main.id
   wait_for_cluster = true
   timeouts {
-    create = "30m"
+    create = "90m"
   }
 }
 
