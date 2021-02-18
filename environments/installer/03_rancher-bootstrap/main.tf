@@ -13,7 +13,7 @@ module "rancher_server" {
   environment               = ""
   project                   = "rancher-server"
   suffix                    = "a1"
-  git_server_version        = "2.25"
+  git_server_version        = "2.32"
   key_vault_resource_group = ""
   key_vault_name           = ""
   container_registry_url   = ""
