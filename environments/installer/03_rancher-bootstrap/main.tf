@@ -9,7 +9,7 @@ module "rancher_server" {
   environment              = var.environment
   project                  = "rancher-server"
   suffix                   = var.rancher_suffix
-  git_server_version       = "2.31"
+  git_server_version       = "2.32"
   key_vault_resource_group = "${local.kv_name}-rg"
   key_vault_name           = local.kv_name
   container_registry_url   = var.container_registry_url
