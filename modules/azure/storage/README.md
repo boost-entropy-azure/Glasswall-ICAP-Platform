@@ -5,13 +5,6 @@
 | terraform | >= 0.13 |
 | azurerm | ~> 2.30.0 |
 
-## Providers
-
-| Name | Version |
-|------|---------|
-| azurerm | ~> 2.30.0 |
-| random | n/a |
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |

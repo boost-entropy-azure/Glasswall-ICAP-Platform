@@ -5,12 +5,33 @@ To read more about the Glasswall ICAP Platform. The technical design documentati
 Access is restricted.
 
 ### The environment modules
-This directory contains the terraform backend and modules that load in modules from the workspace. It provides a easy mechanism of organising a one to many terraform deployment pattern. Terraform modules typically store the backend in the module and this is a useful pattern but in a case of a developer at Glasswall Solutions you want to be able to prototype your terraform code before you use it in production. Using this pattern enables you to have a manageable way to setup a new set of services by replicating a few modules and *setting up a new backend*. The organisation isnot strict but i have gone for organising the modules by git branch name `environments/branch/modules`. Where branch is the name of the branch you are currently on, the backend uses the branch to differentiate backends.
+This directory contains the terraform backend and modules that load in modules from the workspace. It provides an easy mechanism of organising a one to many terraform deployment pattern. Terraform modules typically store the backend in the module and this is a useful pattern but in a case of a developer at Glasswall Solutions you want to be able to prototype your terraform code before you use it in production. Using this pattern enables you to have a manageable way to setup a new set of services by replicating a few modules and *setting up a new backend*.
 
 # Installer
 The installer module is where you should start, in the following order execute the terraform runs.
 
 ### TFVARS
+
+| Value | Description |
+|------|---------|
+| organisation | A short identifier for your organization, used in resource naming. Should be no longer than 4 character. | 
+| tenant_id | The Tenant ID for your Azure account. | 
+| subscription_id | The Subscription ID for your Azure account. | 
+| azure_region | The base Azure Region to deploy most of the Azure infrastructure into.  The platform is currently configured to use North Europe, UK West and UK South for the cluster regions. | 
+| environment | An environment name for this deployment, used in resource naming. | 
+| suffix | A suffix to append to the storage and ACR resource names. Useful in creating multiple deployments on an Azure subscription. Defaults to z1. | 
+| rancher_suffix | A suffix to append to the rancher resource names. Useful in creating multiple deployments on an Azure subscription. Defaults to a1. | 
+| container_registry_url | The URL of the Azure Container Registry created in step 02_container-registry, including the trailing ‘/’. Should be like myregistry.azurecr.io/. | 
+| root_dns_zone_name | DNS Zone Name for the root DNS Zone in Azure. This is the pre-existing DNS Zone in your Azure subscription. | 
+| rooot_dns_resource_group | The Azure Resource Group for the root DNS Zone above. | 
+| cluster_1_suffix | A suffix to append to the cluster 1s resource names. Useful in creating multiple deployments on an Azure subscription. Defaults to b. | 
+| cluster_2_suffix | A suffix to append to the cluster2s resource names. Useful in creating multiple deployments on an Azure subscription. Defaults to c. | 
+| cluster_3_suffix | A suffix to append to the cluster 3s resource names. Useful in creating multiple deployments on an Azure subscription. Defaults to d. | 
+| icap_cluster_quantity | The number of ICAP clusters to run. This will deploy X clusters per region. Defaults to 1. | 
+| icap_master_quantity | The number of ICAP masters to run in each cluster. This will deploy X masters per cluster. Defaults to 1. | 
+| icap_worker_quantity | The number of ICAP workers to run in each cluster. This will deploy X workers per cluster. Defaults to 1. | 
+
+
 Saving time with some variables with tfvars. The following variables do not change across all the terraform modules, which makes them a perfect candidate for using tfvars.
 ```
     organisation           = ""
@@ -19,14 +40,14 @@ Saving time with some variables with tfvars. The following variables do not chan
     tenant_id              = ""
     subscription_id        = ""
 ```
-Anything not in the above list should be managed at the module level. However the above will save you quite a bit of duplication. Modify each terraform run with;
+Anything not in the above list should be modified after finishing step `01_terraform-remote-state` or `02_container-registry`. However the above will save you quite a bit of duplication. Modify each terraform run with;
 
-```terraform apply -var-file="../common.tfvars"```
+```terraform apply -var-file="../terraform.tfvars"```
 
 ### 1. 01_terraform-remote-state
 This stage sets up the underlying storage of the terraform backends, note the outputs because all stages rely on information from the outputs of this module.
 
-Before you begin you will need the following details and a valid azure login account. Once you've executed `az login` you will need the following information.
+Before you begin you will need the following details and a valid azure login account. Once you've executed `az login` you will need the following variables defined in `terraform.tfvars`.
 
 ```
     organisation           = "" # this just needs to be a short identifier (i.e gw
@@ -37,7 +58,7 @@ Before you begin you will need the following details and a valid azure login acc
 ```
 Add this information to the environments/installer/01_terraform-remote-state/main.tf
 
-Run `terraform init`, then `terraform plan`, then `terraform apply`.
+Run `terraform init`, then `terraform plan -var-file="../terraform.tfvars`, then `terraform apply -var-file="../terraform.tfvars`.
 
 Take note of the outputs because you will need them in all the next stages.
 
@@ -45,7 +66,7 @@ Take note of the outputs because you will need them in all the next stages.
 This stage creates the container registry which will store all of the container images. You will need this before continuing with any steps related to the setup of the git server (part of ```03_rancher-bootstrap```).
 
 Using the terraform outputs from 01_terraform-remote-state fill in the following details;
-```main.tf``` in environments/installer/02_container-registry/main.tf on line 2.
+```tfstate.tf``` in environments/installer/02_container-registry/tfstate.tf on line 2.
 
 ```
     terraform {
@@ -58,18 +79,11 @@ Using the terraform outputs from 01_terraform-remote-state fill in the following
         }
     }
 ```
-Once complete copy the same information you used for;
-```
-    organisation           = "" # this just needs to be a short identifier (i.e gw
-    environment            = "" # can be anything short to identify this stacks change management tier
-    azure_region           = "" # which azure region do you want to use ?
-    tenant_id              = "" # this is based on your azure account
-    subscription_id        = "" # this is based on your azure account
-```
-Run `terraform init`, then `terraform plan`, then `terraform apply`.
+
+Run `terraform init`, then `terraform plan -var-file="../terraform.tfvars`, then `terraform apply -var-file="../terraform.tfvars`.
 
 ### 3. 03_rancher-bootstrap
-This stage creates the rancher server which will be used to setup the kubernetes clusters. Using the information from the 01_terraform-remote-state add the necessary information the the terraform backend configuration in the main.tf in environments/installer/03_rancher-bootstrap/main.tf
+This stage creates the rancher server which will be used to setup the kubernetes clusters. Using the information from the 01_terraform-remote-state add the necessary information the the terraform backend configuration in the main.tf in environments/installer/03_rancher-bootstrap/tfstate.tf
 ```
 terraform {
   backend "azurerm" {
@@ -81,19 +95,16 @@ terraform {
   }
 }
 ```
-Like in the previous steps fill in this information.
+in environments/installer/terraform.tfvars fill in this additional information.
 
 ```
-    organisation           = "" # this just needs to be a short identifier (i.e gw
-    environment            = "" # can be anything short to identify this stacks change management tier
-    azure_region           = "" # which azure region do you want to use ?
-    tenant_id              = "" # this is based on your azure account
-    subscription_id        = "" # this is based on your azure account
     key_vault_resource_group = "" # you get this from 01 output
     key_vault_name           = "" # you get this from 01 output
     container_registry_url   = "" # From the output of step 02_container-registry (ie myawesomeregistry.azurecr.io
+    root_dns_zone_name       = "" # The name of the parent DNS Zone (ie example.com
+    rooot_dns_resource_group = "" # The Azure Resource Greoup for the parent DNS Zone
 ```
-Run `terraform init`, then `terraform plan`, then `terraform apply`.
+Run `terraform init`, then `terraform plan -var-file="../terraform.tfvars`, then `terraform apply -var-file="../terraform.tfvars`.
 
 There is quite a bit of information in the Rancher output. Most importantly is the following information;
 
@@ -111,7 +122,13 @@ The login password
 
 
 ### 4. 04_rancher-clusters
-This stage creates the clusters that run the ICAP service.
+This stage creates the clusters that run the ICAP service. If you want to modift the number of clusters, workers, or master nodes you can modify the following values in `terraform.tfvars`:
+
+```
+    icap_cluster_quantity  = "1" # The number of Kubernetes Clusters to deploy per Azure Region
+    icap_master_quantity   = "1" # The number of Kubernetes Master Nodes to deploy per Kubernetes Cluster
+    icap_worker_quantity   = "1" # The number of Kubernetes Worker Nodes to deploy per Kubernetes Cluster
+```
 
 ### The workspace modules
 This directory contains assembled terraform components which define a component in the final delivery infrastructure. Entities like the Rancher server, and the Clusters are assembled in the workspace as well as pre-prequisites like state storage, secrets management and a container registry.
@@ -119,7 +136,8 @@ This directory contains assembled terraform components which define a component 
 1. [Terraform Remote State](https://github.com/filetrust/Glasswall-ICAP-Platform/tree/main/workspace/terraform-remote-state)
 2. [Container Registry](https://github.com/filetrust/Glasswall-ICAP-Platform/tree/main/workspace/container-registry)
 3. [Rancher Bootstrap](https://github.com/filetrust/Glasswall-ICAP-Platform/tree/main/workspace/rancher-bootstrap)
-4. [ICAP Multi Cluster No Vault](https://github.com/filetrust/Glasswall-ICAP-Platform/tree/main/workspace/icap-multi-cluster-no-vault)
+4. [Proto Multi Clusters](https://github.com/filetrust/Glasswall-ICAP-Platform/tree/main/workspace/proto-multi-clusters)
+5. [ICAP Multi Cluster No Vault](https://github.com/filetrust/Glasswall-ICAP-Platform/tree/main/workspace/icap-multi-cluster-no-vault)
 
 ### The modules directory is for reusable resource collections or single resource terraform modules
 This directory contains many module libraries and one meta module ('gw'). The intent is that we build terraform modules that perform a single task and assemble them when required. This improves the quality of the code and reliability of the terraform executions. Small components can be assembled into more elaborate collections.  
@@ -179,7 +197,7 @@ To begin provisioning infrastructure make sure you have all the necessary permis
 Once complete the output will contain the Rancher URL, Username, Password and ssh key, this key can be used to login to all the clusters services once deployed.
 The rancher bootstrap is required to be online and functional before you provision the rancher clusters.
 
-5. Deploy the Base Clusters (a base cluster is a cluster that has 2 scalesets i.e 1 master and 1 worker node).
+5. Deploy the Base Clusters (a base cluster is a cluster that has 2 scalesets i.e 1 master and 1 worker node), in [Rancher Cluster | develop](https://github.com/filetrust/Glasswall-ICAP-Platform/tree/main/environments/develop/rancher-clusters) & [ Rancher Cluster | main ](https://github.com/filetrust/Glasswall-ICAP-Platform/tree/main/environments/main/rancher-clusters).
 
     a. change to the `cd environments/main/rancher-clusters`
 

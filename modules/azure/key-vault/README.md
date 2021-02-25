@@ -7,12 +7,6 @@
 | azurerm | ~> 2.30.0 |
 | rancher2 | 1.10.3 |
 
-## Providers
-
-| Name | Version |
-|------|---------|
-| azurerm | =2.30.0 ~> 2.30.0 |
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
