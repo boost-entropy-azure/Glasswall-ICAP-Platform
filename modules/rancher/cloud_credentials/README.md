@@ -5,12 +5,6 @@
 | terraform | >= 0.13 |
 | rancher2 | 1.10.3 |
 
-## Providers
-
-| Name | Version |
-|------|---------|
-| rancher2 | 1.10.3 |
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |

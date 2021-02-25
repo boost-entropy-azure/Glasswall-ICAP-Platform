@@ -6,10 +6,6 @@
 | azurerm | ~> 2.30.0 |
 | rancher2 | 1.10.3 |
 
-## Providers
-
-No provider.
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -19,10 +15,10 @@ No provider.
 | client\_secret | Service Principal Secret | `string` | n/a | yes |
 | cluster\_address\_space | Address Space | `list(string)` | n/a | yes |
 | cluster\_backend\_port | Backend Port | `number` | n/a | yes |
-| cluster\_internal\_services | Ports to open on the internal load balancer | <pre>map(object({<br>      protocol                        = string<br>      frontend_port                   = number<br>      backend_port                    = number<br>  }))</pre> | n/a | yes |
+| cluster\_internal\_services | Ports to open on the internal load balancer | <pre>map(object({<br>    protocol      = string<br>    frontend_port = number<br>    backend_port  = number<br>  }))</pre> | n/a | yes |
 | cluster\_public\_port | Public Port | `number` | n/a | yes |
 | cluster\_quantity | Quantity of clusters in Region | `number` | n/a | yes |
-| cluster\_stage1\_apps | A list of apps | <pre>map(object({<br>    namespace = string<br>    catalog_name = string<br>    template_name = string<br>    create_namespace = bool<br>    system_app = bool<br>  }))</pre> | n/a | yes |
+| cluster\_stage1\_apps | A list of apps | <pre>map(object({<br>    namespace        = string<br>    catalog_name     = string<br>    template_name    = string<br>    create_namespace = bool<br>    system_app       = bool<br>  }))</pre> | n/a | yes |
 | cluster\_subnet\_cidr | Subnet CIDR | `list(string)` | n/a | yes |
 | cluster\_subnet\_prefix | Subnet Prefix | `string` | n/a | yes |
 | dns\_zone | The DNS Zone | `string` | n/a | yes |
@@ -50,7 +46,7 @@ No provider.
 | rancher\_projects | The Projects to create on a base k8s Cluster | `string` | n/a | yes |
 | rancher\_resource\_group | The Rancher Resource Group | `string` | n/a | yes |
 | rancher\_server\_name | n/a | `string` | n/a | yes |
-| security\_group\_rules | The rules to add as an object | <pre>map(object({<br>    name                                        = string<br>    priority                                    = string<br>    direction                                   = string<br>    access                                      = string<br>    protocol                                    = string<br>    source_port_range                           = string<br>    destination_port_range                      = string<br>    source_address_prefix                       = string<br>    destination_address_prefix                  = string<br>  }))</pre> | n/a | yes |
+| security\_group\_rules | The rules to add as an object | <pre>map(object({<br>    name                       = string<br>    priority                   = string<br>    direction                  = string<br>    access                     = string<br>    protocol                   = string<br>    source_port_range          = string<br>    destination_port_range     = string<br>    source_address_prefix      = string<br>    destination_address_prefix = string<br>  }))</pre> | n/a | yes |
 | service\_name | The name of the service | `string` | n/a | yes |
 | subscription\_id | Service Principal Subscription ID | `string` | n/a | yes |
 | suffix | The Suffix | `string` | n/a | yes |

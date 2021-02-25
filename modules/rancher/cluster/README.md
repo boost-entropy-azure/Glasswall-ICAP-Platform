@@ -5,12 +5,6 @@
 | terraform | >= 0.13 |
 | rancher2 | 1.10.3 |
 
-## Providers
-
-| Name | Version |
-|------|---------|
-| rancher2 | 1.10.3 |
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -24,9 +18,9 @@
 | client\_secret | Service Principal Secret | `string` | n/a | yes |
 | cluster\_name | This is the name of the cluster | `string` | n/a | yes |
 | cluster\_network\_plugin | Set the network plugin | `string` | `"canal"` | no |
-| cluster\_stage1\_apps | A list of apps | <pre>map(object({<br>    namespace = string<br>    catalog_name = string<br>    template_name = string<br>    create_namespace = bool<br>    system_app = bool<br>  }))</pre> | n/a | yes |
+| cluster\_stage1\_apps | A list of apps | <pre>map(object({<br>    namespace        = string<br>    catalog_name     = string<br>    template_name    = string<br>    create_namespace = bool<br>    system_app       = bool<br>  }))</pre> | n/a | yes |
 | cluster\_worker\_labels | The labels | `map(any)` | n/a | yes |
-| cluster\_worker\_taints | The labels | <pre>list(object({<br>    key = string<br>    value = string<br>    effect = string<br>  }))</pre> | n/a | yes |
+| cluster\_worker\_taints | The labels | <pre>list(object({<br>    key    = string<br>    value  = string<br>    effect = string<br>  }))</pre> | n/a | yes |
 | default\_master\_template\_id | The default master template id | `string` | n/a | yes |
 | default\_worker\_template\_id | The default work template id | `string` | n/a | yes |
 | docker\_config\_json | The docker config json | `string` | n/a | yes |

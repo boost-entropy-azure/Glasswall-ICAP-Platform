@@ -2,12 +2,6 @@
 
 No requirements.
 
-## Providers
-
-| Name | Version |
-|------|---------|
-| azurerm | n/a |
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |

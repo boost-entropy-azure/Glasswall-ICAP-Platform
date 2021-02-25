@@ -5,12 +5,6 @@
 | terraform | >= 0.13 |
 | azurerm | ~> 2.30.0 |
 
-## Providers
-
-| Name | Version |
-|------|---------|
-| azurerm | ~> 2.30.0 |
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -20,7 +14,7 @@
 | client\_id | Service Principal ClientID | `string` | n/a | yes |
 | client\_secret | Service Principal Secret | `string` | n/a | yes |
 | cluster\_address\_space | Subnet ID | `list(string)` | n/a | yes |
-| cluster\_internal\_services | Ports to open on the internal load balancer | <pre>map(object({<br>      protocol                        = string<br>      frontend_port                   = number<br>      backend_port                    = number<br>  }))</pre> | n/a | yes |
+| cluster\_internal\_services | Ports to open on the internal load balancer | <pre>map(object({<br>    protocol      = string<br>    frontend_port = number<br>    backend_port  = number<br>  }))</pre> | n/a | yes |
 | cluster\_subnet\_cidr | Subnet CIDR | `list(string)` | n/a | yes |
 | dns\_zone | The name of the dns zone to add records to | `string` | n/a | yes |
 | environment | Metadata Environment | `string` | n/a | yes |
@@ -34,7 +28,7 @@
 | rancher\_network | The Network name | `string` | n/a | yes |
 | rancher\_network\_id | The Network ID | `string` | n/a | yes |
 | rancher\_resource\_group | The Rancher Resource Group | `string` | n/a | yes |
-| security\_group\_rules | The rules to add as an object | <pre>map(object({<br>    name                                        = string<br>    priority                                    = string<br>    direction                                   = string<br>    access                                      = string<br>    protocol                                    = string<br>    source_port_range                           = string<br>    destination_port_range                      = string<br>    source_address_prefix                       = string<br>    destination_address_prefix                  = string<br>  }))</pre> | n/a | yes |
+| security\_group\_rules | The rules to add as an object | <pre>map(object({<br>    name                       = string<br>    priority                   = string<br>    direction                  = string<br>    access                     = string<br>    protocol                   = string<br>    source_port_range          = string<br>    destination_port_range     = string<br>    source_address_prefix      = string<br>    destination_address_prefix = string<br>  }))</pre> | n/a | yes |
 | service\_name | The name of the service | `string` | n/a | yes |
 | subscription\_id | Service Principal Subscription ID | `string` | n/a | yes |
 | suffix | The Suffix | `string` | n/a | yes |
