@@ -44,6 +44,10 @@ resource "rancher2_cluster" "main" {
     upgrade_strategy {
       drain                  = true
       max_unavailable_worker = "20%"
+      drain_input {
+        delete_local_data = true
+        force = true
+      }
     }
     kubernetes_version = var.kubernetes_version
   }
